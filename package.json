@@ -1,0 +1,8 @@
+{
+  "name": "socket-drawing-training",
+  "version": "0.0.1",
+  "description": "Remote Drawing",
+  "dependencies": {
+    "express": "^4.10.2"
+  }
+}
