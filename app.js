@@ -1,13 +1,27 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var colors = ["#E53935","#8E24AA","#D81B60","#00897B","#FDD835","#039BE5","#E91E63","#2196F3","#3F51B5","#4CAF50","#FFC107","#FF9800","#FFEB3B"];
 
 var peoples = new Array();
+
+//ExpressJS
+app.use(express.static('public'));
+
+
 app.get('/', function(req, res){
-  res.send('<h1>Hello world</h1>');
+  res.sendFile('/index.html');
 });
+
+
+
+
+
+
+//Socket.io
+
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
@@ -23,14 +37,13 @@ io.on('connection', function(socket){
 
       peoples.push({ "id" : id, "color" : color });
 
+      console.log(peoples)
       socket.emit("me", {
         "id" : id,
         "color" : color
       });
 
       io.emit("userList", peoples);
-
-      console.log(peoples);
     })
 
     socket.on('clear', function(){
@@ -44,7 +57,7 @@ io.on('connection', function(socket){
        "coordinates" : coordinates,
        "drawer" : socket.id
      };
-     console.log(objectToSend);
+     //console.log(objectToSend);
       socket.broadcast.emit("receiveDrawing", objectToSend);
     });
 
